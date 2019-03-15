@@ -1,0 +1,48 @@
+{
+  "name": "adonis-grapfql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc node japaFile.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HigoRibeiro/adonis-grapfql.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HigoRibeiro/adonis-grapfql/issues"
+  },
+  "homepage": "https://github.com/HigoRibeiro/adonis-grapfql#readme",
+  "devDependencies": {
+    "@adonisjs/fold": "^4.0.9",
+    "clear-module": "^3.1.0",
+    "eslint": "^5.15.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "japa": "^2.0.7",
+    "japa-cli": "^1.0.1",
+    "mock-fs": "^4.8.0",
+    "nyc": "^13.3.0",
+    "supertest": "^3.4.2"
+  },
+  "dependencies": {
+    "@adonisjs/sink": "^1.0.17",
+    "apollo-server-adonis": "^1.4.0",
+    "graphql": "^14.1.1",
+    "graphql-tools": "^4.0.4",
+    "macroable": "^2.0.1",
+    "merge-graphql-schemas": "^1.5.8"
+  },
+  "nyc": {
+    "exclude": [
+      "test"
+    ]
+  }
+}
