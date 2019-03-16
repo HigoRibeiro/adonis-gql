@@ -43,6 +43,6 @@ module.exports = async () => {
   })
 
   await registrar
-    .providers([path.join(__dirname, '../../../providers/GrafQLProvider')])
+    .providers([path.join(__dirname, '../../../providers/GQLProvider')])
     .registerAndBoot()
 }

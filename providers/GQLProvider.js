@@ -1,14 +1,14 @@
 const { ServiceProvider } = require.main.require('@adonisjs/fold')
 
-const GrafQLServer = require('../src/Server')
+const GqlServer = require('../src/Server')
 
 class GrafQLProvider extends ServiceProvider {
   _registerGrafQL () {
-    this.app.singleton('Adonis/Addons/GrafQLServer', () => {
+    this.app.singleton('Adonis/Addons/GqlServer', () => {
       const Config = use('Adonis/Src/Config')
-      return new GrafQLServer(Config)
+      return new GqlServer(Config)
     })
-    this.app.alias('Adonis/Addons/GrafQLServer', 'Gql')
+    this.app.alias('Adonis/Addons/GqlServer', 'Gql')
   }
 
   boot () {

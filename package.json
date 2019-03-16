@@ -1,5 +1,5 @@
 {
-  "name": "adonis-grapfql",
+  "name": "adonis-gql",
   "version": "1.0.0",
   "description": "A graphql provider for the Adonis framework",
   "main": "index.js",
