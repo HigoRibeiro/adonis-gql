@@ -22,9 +22,9 @@
   "author": "Higo Ribeiro",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/HigoRibeiro/adonis-grapfql/issues"
+    "url": "https://github.com/HigoRibeiro/adonis-gql/issues"
   },
-  "homepage": "https://github.com/HigoRibeiro/adonis-grapfql#readme",
+  "homepage": "https://github.com/HigoRibeiro/adonis-gql#readme",
   "devDependencies": {
     "@adonisjs/fold": "^4.0.9",
     "eslint": "^5.15.1",
