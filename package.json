@@ -1,7 +1,7 @@
 {
   "name": "adonis-grapfql",
   "version": "1.0.0",
-  "description": "",
+  "description": "A graphql provider for the Adonis framework",
   "main": "index.js",
   "scripts": {
     "test": "nyc node japaFile.js"
@@ -10,9 +10,17 @@
     "type": "git",
     "url": "git+https://github.com/HigoRibeiro/adonis-grapfql.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "adonisjs",
+    "adonis",
+    "graphql",
+    "gql",
+    "adonis-graphql",
+    "adonis-graphql-server",
+    "graphql-server"
+  ],
+  "author": "Higo Ribeiro",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/HigoRibeiro/adonis-grapfql/issues"
   },
