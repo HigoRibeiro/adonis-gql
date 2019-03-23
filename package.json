@@ -1,6 +1,6 @@
 {
   "name": "adonis-gql",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A graphql provider for the Adonis framework",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,9 @@
   },
   "homepage": "https://github.com/HigoRibeiro/adonis-gql#readme",
   "devDependencies": {
+    "@adonisjs/ace": "^5.0.8",
     "@adonisjs/fold": "^4.0.9",
+    "@adonisjs/sink": "^1.0.17",
     "eslint": "^5.15.1",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.16.0",
@@ -40,12 +42,13 @@
     "supertest": "^3.4.2"
   },
   "dependencies": {
-    "@adonisjs/sink": "^1.0.17",
     "apollo-server-adonis": "^1.4.0",
+    "boxen": "^3.0.0",
     "graphql": "^14.1.1",
     "graphql-tools": "^4.0.4",
     "macroable": "^2.0.1",
-    "merge-graphql-schemas": "^1.5.8"
+    "merge-graphql-schemas": "^1.5.8",
+    "pluralize": "^7.0.0"
   },
   "nyc": {
     "exclude": [

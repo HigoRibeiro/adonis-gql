@@ -7,10 +7,6 @@ const { ioc } = require('@adonisjs/fold')
 const Store = require('../../src/Resolver/Store')
 
 test.group('Store', group => {
-  // group.beforeEach(() => {
-  //   // ioc.restore()
-  // })
-
   group.before(() => {
     setupResolver()
 

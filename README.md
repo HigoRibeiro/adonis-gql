@@ -127,6 +127,13 @@ Route.post("/", ctx => Gql.handle(ctx));
 Route.get("/graphiql", ctx => Gql.handle(ctx));
 ```
 
+## Commands
+
+| Command                      | Description                    | Options                                                                                                                                                                |
+| ---------------------------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `adonis gql:schema <name>`   | Make a new schema to graphql   | `-r` Generate resolvers query and mutation for the schema<br> `-q` Generate only query resolver for the schema<br> `-m` Generate only mutation resolver for the schema |
+| `adonis gql:resolver <name>` | Make a new resolver to graphql | `-q` Generate only query resolver for the schema<br> `-m` Generate only mutation resolver for the schema                                                               |
+
 ## Thanks
 
 Thank you very much to the creators of [AdonisJS](https://adonisjs.com/) for creating this wonderful framework.
