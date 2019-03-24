@@ -3,7 +3,7 @@ const path = require('path')
 
 module.exports = {
   getSchemaContent () {
-    return `Query {\n\n}\n\nMutation {\n\n}`
+    return `type Post {\n\n}\n\ntype Query {\n\n}\n\ntype Mutation {\n\n}`
   },
   getTemplate (name = 'schemas') {
     const data = fs.readFileSync(
