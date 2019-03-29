@@ -17,18 +17,18 @@ Register the provider in `start/app.js`:
 ```js
 const providers = [
   // ...
-  "adonis-gql/providers/GQLProvider"
+  'adonis-gql/providers/GQLProvider'
 ];
 ```
 
 Record the `preLoads` needed in `server.js`:
 
 ```js
-new Ignitor(require("@adonisjs/fold"))
+new Ignitor(require('@adonisjs/fold'))
   .appRoot(__dirname)
   /* Register preLoads to GrafQLProvider */
-  .preLoad("start/graphql.js")
-  .preLoad("start/gqlKernel.js")
+  .preLoad('start/graphql.js')
+  .preLoad('start/gqlKernel.js')
   /* End */
 
   .fireHttpServer()
@@ -43,28 +43,28 @@ To use `adonis-gql` you need to set `Controllers` and `Schemas` and configure th
 
 The resolvers are in the directory `app/Controllers/Gql`.
 
-Here the ** resolvers ** are separated by `Query`,`Mutation` or a specific type.
-The file for `Query` of `Post` staying in `app/Controllers/Gql/PostQueryController.js`:
+Here the ** resolvers ** are separated by `Queries`, `Mutations` or a specific type.
+The file for `Queries` of `Post` staying in `app/Controllers/Gql/Queries/PostController.js`:
 
 ```js
-class PostQueryController {
+class PostController {
   async posts(parent, arg, ctx) {}
 }
 
-module.exports = PostQueryController;
+module.exports = PostController;
 ```
 
-The file `Mutation` of `Post` staying in `app/Controllers/Gql/PostMutationController.js`:
+The file for `Mutations` of `Post` staying in `app/Controllers/Gql/Mutations/PostController.js`:
 
 ```js
-class PostMutationController {
+class PostController {
   async addPost(parent, arg, ctx) {}
 }
 
-module.exports = PostMutationController;
+module.exports = PostController;
 ```
 
-For the sake of organization, you can create a directory to separate the types `app/Controllers/Gql/Queries` an `app/Controllers/Gql/Mutations`.
+For the sake of organization, adonis-gql create directories to separate the types `app/Controllers/Gql/Queries` and `app/Controllers/Gql/Mutations`.
 
 ### Schema
 
@@ -93,22 +93,22 @@ type Post {
 
 ### Registering the resolvers and schemas
 
-For effective use of `resolvers` and `schemas` it is necessary to register them in `graphql.js`:
+For effective use of `resolvers` and `schemas` it is necessary to register them in `start/graphql.js`:
 
 ```js
-const Gql = use("Gql");
+const Gql = use('Gql');
 
 // Here it has to be exactly that of the file defined in app/Schemas
-Gql.schema("Post");
+Gql.schema('Post');
 
-Gql.query("Post", "PostQueryController");
-Gql.mutation("Post", "PostMutationController");
+Gql.query('Post', 'Queries/PostController');
+Gql.mutation('Post', 'Mutations/PostController');
 
 // Maybe you prefer to organize more.
 
-Gql.schema("Post", () => {
-  Gql.query("PostQueryController");
-  Gql.mutation("PostMutationController");
+Gql.schema('Post', () => {
+  Gql.query('Queries/PostController');
+  Gql.mutation('Mutations/PostController');
 });
 ```
 
@@ -120,11 +120,11 @@ In the file `start/routes.js`:
 
 ```js
 // ...
-const Gql = use("Gql");
+const Gql = use('Gql')
 
-Route.post("/", ctx => Gql.handle(ctx));
+Route.post('/', ctx => Gql.handle(ctx))
 // If you want a playground
-Route.get("/graphiql", ctx => Gql.handle(ctx));
+Route.get('/graphiql', ctx => Gql.handleUi(ctx))
 ```
 
 ## Commands
