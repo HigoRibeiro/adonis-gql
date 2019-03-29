@@ -1,6 +1,6 @@
 'use strict'
 
-const { graphqlAdonis, graphqliAdonis } = require('apollo-server-adonis')
+const { graphqlAdonis, graphiqlAdonis } = require('apollo-server-adonis')
 const {
   addMockFunctionsToSchema,
   makeExecutableSchema
@@ -90,7 +90,7 @@ class Server {
   }
 
   handleUi (context) {
-    return graphqliAdonis({
+    return graphiqlAdonis({
       endpointURL: '/'
     })(context)
   }
