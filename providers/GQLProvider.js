@@ -1,16 +1,18 @@
 'use strict'
 
 const { ServiceProvider } = use('@adonisjs/fold')
+const { SchemaDirectiveVisitor } = require('graphql-tools')
 
 const GqlServer = require('../src/Server')
 
 class GQLProvider extends ServiceProvider {
-  _registerGrafQL () {
+  _registerGQL () {
     this.app.singleton('Adonis/Addons/GqlServer', () => {
-      const Config = use('Adonis/Src/Config')
-      return new GqlServer(Config)
+      return new GqlServer()
     })
+
     this.app.alias('Adonis/Addons/GqlServer', 'Gql')
+    this.app.bind('SchemaDirectiveVisitor', () => SchemaDirectiveVisitor)
   }
 
   _registerCommands () {
@@ -21,6 +23,10 @@ class GQLProvider extends ServiceProvider {
     this.app.bind('Adonis/Commands/GqlController', () => {
       return require('../src/Commands/Resolvers.js')
     })
+
+    this.app.bind('Adonis/Commands/GqlDirective', () => {
+      return require('../src/Commands/Directive.js')
+    })
   }
 
   register () {
@@ -28,11 +34,12 @@ class GQLProvider extends ServiceProvider {
   }
 
   boot () {
-    this._registerGrafQL()
+    this._registerGQL()
 
     const ace = require('@adonisjs/ace')
     ace.addCommand('Adonis/Commands/GqlSchema')
     ace.addCommand('Adonis/Commands/GqlController')
+    ace.addCommand('Adonis/Commands/GqlDirective')
   }
 }
 

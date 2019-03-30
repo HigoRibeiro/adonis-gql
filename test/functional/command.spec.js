@@ -7,11 +7,13 @@ const fs = require('fs')
 const {
   getSchemaContent,
   getPostController,
+  getDirectiveContent,
   getTemplate
 } = require('./helpers')
 
 const schemaTemplate = getTemplate()
 const gqlControllerTemplate = getTemplate('gqlControllers')
+const directiveTemplate = getTemplate('directives')
 
 test.group('Commands | Schema', group => {
   group.before(async () => {
@@ -21,7 +23,8 @@ test.group('Commands | Schema', group => {
   group.beforeEach(() => {
     mock({
       'templates/schemas.mustache': schemaTemplate,
-      'templates/gqlControllers.mustache': gqlControllerTemplate
+      'templates/gqlControllers.mustache': gqlControllerTemplate,
+      'templates/directives.mustache': directiveTemplate
     })
   })
 
@@ -85,5 +88,16 @@ test.group('Commands | Schema', group => {
 
     assert.equal(mutationPostController, controller)
     assert.isFalse(fileNotExist)
+  })
+
+  test('create a directive file', async assert => {
+    await ace.call('gql:directive', { name: 'Deprecated' })
+
+    const directive = fs.readFileSync(
+      'app/Directives/DeprecatedDirective.js',
+      'utf-8'
+    )
+
+    assert.equal(directive, getDirectiveContent())
   })
 })

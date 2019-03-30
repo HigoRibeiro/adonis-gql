@@ -7,6 +7,13 @@ const path = require('path')
 const options = {
   appDir: 'app',
   types: {
+    directives: {
+      path: 'Directives',
+      replace: /directive/gi,
+      extension: 'js',
+      singular: pluralize.singular,
+      after: flag => 'Directive'
+    },
     schemas: {
       path: 'Schemas',
       replace: /schema/gi,

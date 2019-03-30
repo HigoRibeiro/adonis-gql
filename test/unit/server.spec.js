@@ -7,6 +7,7 @@ const setup = require('../functional/setup')
 
 const Schema = require('../../src/Resolver/Schema')
 const Resolver = require('../../src/Resolver')
+const Directive = require('../../src/Directive')
 
 test.group('Server', group => {
   group.before(async () => {
@@ -62,5 +63,14 @@ test.group('Server', group => {
     const Gql = ioc.use('Gql')
     const handle = () => Gql.handle()
     assert.throw(handle, 'Schema has not been defined')
+  })
+
+  test('defining directive', assert => {
+    const Gql = ioc.use('Gql')
+
+    Gql.directive('deprecated', 'DeprecatedDirective')
+
+    const Manager = Gql.managerDirective()
+    assert.instanceOf(Manager.directives.get('deprecated'), Directive)
   })
 })

@@ -26,13 +26,13 @@ Record the `preLoads` needed in `server.js`:
 ```js
 new Ignitor(require('@adonisjs/fold'))
   .appRoot(__dirname)
-  /* Register preLoads to GrafQLProvider */
+  /* Register preLoads to GQLProvider */
   .preLoad('start/graphql.js')
   .preLoad('start/gqlKernel.js')
   /* End */
 
   .fireHttpServer()
-  .catch(console.error);
+  .catch(console.error)
 ```
 
 ## Usage
@@ -43,7 +43,7 @@ To use `adonis-gql` you need to set `Controllers` and `Schemas` and configure th
 
 The resolvers are in the directory `app/Controllers/Gql`.
 
-Here the ** resolvers ** are separated by `Queries`, `Mutations` or a specific type.
+Here the **resolvers** are separated by `Queries`, `Mutations` or a specific type.
 The file for `Queries` of `Post` staying in `app/Controllers/Gql/Queries/PostController.js`:
 
 ```js
@@ -51,7 +51,7 @@ class PostController {
   async posts(parent, arg, ctx) {}
 }
 
-module.exports = PostController;
+module.exports = PostController
 ```
 
 The file for `Mutations` of `Post` staying in `app/Controllers/Gql/Mutations/PostController.js`:
@@ -61,7 +61,7 @@ class PostController {
   async addPost(parent, arg, ctx) {}
 }
 
-module.exports = PostController;
+module.exports = PostController
 ```
 
 For the sake of organization, adonis-gql create directories to separate the types `app/Controllers/Gql/Queries` and `app/Controllers/Gql/Mutations`.
@@ -91,25 +91,66 @@ type Post {
 }
 ```
 
+### Directive
+
+The directives are in the directory `app/Directives`. The file for `Deprecated` directive staying in `app/Directives/DeprecatedDirective.js`:
+
+```js
+'use strict'
+
+const SchemaDirectiveVisitor = use('SchemaDirectiveVisitor')
+
+class Deprecated extends SchemaDirectiveVisitor {
+  visitFieldDefinition(field) {
+    field.isDeprecated = true;
+    field.deprecationReason = this.args.reason
+  }
+
+  visitEnumValue(value) {
+    value.isDeprecated = true;
+    value.deprecationReason = this.args.reason
+  }
+}
+
+module.exports = Deprecated
+```
+
+The example was taken from [Implementing schema directives](https://www.apollographql.com/docs/graphql-tools/schema-directives#implementing-schema-directives).
+
+```
+/!\
+Always a directive will be extended SchemaDirectiveVisitor /!\
+```
+
 ### Registering the resolvers and schemas
 
 For effective use of `resolvers` and `schemas` it is necessary to register them in `start/graphql.js`:
 
 ```js
-const Gql = use('Gql');
+const Gql = use('Gql')
 
 // Here it has to be exactly that of the file defined in app/Schemas
-Gql.schema('Post');
+Gql.schema('Post')
 
-Gql.query('Post', 'Queries/PostController');
-Gql.mutation('Post', 'Mutations/PostController');
+Gql.query('Post', 'Queries/PostController')
+Gql.mutation('Post', 'Mutations/PostController')
 
 // Maybe you prefer to organize more.
 
 Gql.schema('Post', () => {
-  Gql.query('Queries/PostController');
-  Gql.mutation('Mutations/PostController');
-});
+  Gql.query('Queries/PostController')
+  Gql.mutation('Mutations/PostController')
+})
+```
+
+### Registering the directive
+
+Following the same train of thought you can add the `directive` in AdonisGql. The first argument is its name and the second its controller, register them in `start/graphql.js`:
+
+```js
+const Gql = use('Gql')
+
+Gql.directive('deprecated', 'DeprecatedDirective')
 ```
 
 ### Routes
@@ -129,10 +170,11 @@ Route.get('/graphiql', ctx => Gql.handleUi(ctx))
 
 ## Commands
 
-| Command                      | Description                    | Options                                                                                                                                                                |
-| ---------------------------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `adonis gql:schema <name>`   | Make a new schema to graphql   | `-r` Generate resolvers query and mutation for the schema<br> `-q` Generate only query resolver for the schema<br> `-m` Generate only mutation resolver for the schema |
-| `adonis gql:resolver <name>` | Make a new resolver to graphql | `-q` Generate only query resolver for the schema<br> `-m` Generate only mutation resolver for the schema                                                               |
+| Command                       | Description                     | Options                                                                                                                                                                |
+| ----------------------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `adonis gql:schema <name>`    | Make a new schema to graphql    | `-r` Generate resolvers query and mutation for the schema<br> `-q` Generate only query resolver for the schema<br> `-m` Generate only mutation resolver for the schema |
+| `adonis gql:resolver <name>`  | Make a new resolver to graphql  | `-q` Generate only query resolver for the schema<br> `-m` Generate only mutation resolver for the schema                                                               |
+| `adonis gql:directive <name>` | Make a new directive to graphql |                                                                                                                                                                        |
 
 ## Thanks
 

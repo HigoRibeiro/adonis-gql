@@ -7,11 +7,10 @@ const {
 } = require('graphql-tools')
 const { mergeResolvers, mergeTypes } = require('merge-graphql-schemas')
 const ResolverManager = require('../Resolver/Manager')
+const DirectiveManager = require('../Directive/Manager')
 
 class Server {
-  constructor (config) {
-    this.config = config
-
+  constructor () {
     this.clear()
   }
 
@@ -24,7 +23,10 @@ class Server {
     this._schemas = []
     this.$schemas = null
 
+    this._directives = {}
+
     ResolverManager.clear()
+    DirectiveManager.clear()
   }
 
   _loadResolversController () {
@@ -43,13 +45,21 @@ class Server {
     this.$schemas = mergeTypes(this._schemas)
   }
 
+  _loadDirectives () {
+    DirectiveManager.directives.forEach(directive => {
+      this._directives[directive.name] = directive.transform()
+    })
+  }
+
   register () {
     this._loadResolversController()
     this._loadTypes()
+    this._loadDirectives()
 
     this.$schema = makeExecutableSchema({
       typeDefs: this.$schemas,
-      resolvers: this.$resolvers
+      resolvers: this.$resolvers,
+      schemaDirectives: this._directives
     })
 
     return this
@@ -57,6 +67,10 @@ class Server {
 
   manager () {
     return ResolverManager
+  }
+
+  managerDirective () {
+    return DirectiveManager
   }
 
   schema (...args) {
@@ -69,6 +83,10 @@ class Server {
 
   mutation (...args) {
     return ResolverManager.mutation(...args)
+  }
+
+  directive (...args) {
+    return DirectiveManager.directive(...args)
   }
 
   handle (context, options = {}) {

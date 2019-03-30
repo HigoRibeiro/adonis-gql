@@ -2,7 +2,7 @@
 
 const MakeBase = require('./MakeBase')
 
-class Schema extends MakeBase {
+class Resolvers extends MakeBase {
   static get signature () {
     return `
     gql:resolver
@@ -40,4 +40,4 @@ class Schema extends MakeBase {
   }
 }
 
-module.exports = Schema
+module.exports = Resolvers
