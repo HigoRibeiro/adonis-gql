@@ -7,6 +7,12 @@ const path = require('path')
 const options = {
   appDir: 'app',
   types: {
+    middlewares: {
+      path: 'Middleware',
+      replace: /middleware/gi,
+      extension: 'js',
+      singular: pluralize.singular
+    },
     directives: {
       path: 'Directives',
       replace: /directive/gi,

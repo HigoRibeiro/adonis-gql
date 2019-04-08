@@ -27,6 +27,10 @@ class GQLProvider extends ServiceProvider {
     this.app.bind('Adonis/Commands/GqlDirective', () => {
       return require('../src/Commands/Directive.js')
     })
+
+    this.app.bind('Adonis/Commands/GqlMiddleware', () => {
+      return require('../src/Commands/Middleware.js')
+    })
   }
 
   register () {
@@ -40,6 +44,7 @@ class GQLProvider extends ServiceProvider {
     ace.addCommand('Adonis/Commands/GqlSchema')
     ace.addCommand('Adonis/Commands/GqlController')
     ace.addCommand('Adonis/Commands/GqlDirective')
+    ace.addCommand('Adonis/Commands/GqlMiddleware')
   }
 }
 

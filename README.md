@@ -39,6 +39,33 @@ new Ignitor(require('@adonisjs/fold'))
 
 To use `adonis-gql` you need to set `Controllers` and `Schemas` and configure them in the `start/graphql.js` file.
 
+### Middlewares
+
+You can add `middlewares` to your **resolvers**, they can be global or named, so you need to create a middleware that has the `gqlHandle` method and register it.
+
+```js
+class Auth {
+  async gqlHandle (resolve, root, args, ctx, info) {
+    const result = await resolve(parent, args, ctx, info)
+    return result
+  }
+}
+
+module.exports = Auth
+```
+
+To use them you need to register them in the `start/gqlKernel.js` file:
+
+```js
+// to use global
+Gql.registerGlobal(['App/Middleware/Auth'])
+
+// to use named
+Gql.registerNamed({
+  auth: 'App/Middleware/Auth'
+})
+```
+
 ### Resolvers
 
 The resolvers are in the directory `app/Controllers/Gql`.
@@ -65,6 +92,34 @@ module.exports = PostController
 ```
 
 For the sake of organization, adonis-gql create directories to separate the types `app/Controllers/Gql/Queries` and `app/Controllers/Gql/Mutations`.
+
+#### Middlewares
+
+You can add middlewares inside the **Controller** class with the `static` method called `middlewares` and it needs to return an object containing the keys with the previously registered middlewares:
+
+```js
+class PostController {
+  async posts(parent, arg, ctx) {}
+
+  static middlewares () {
+    return {
+      posts: ['auth']
+    }
+  }
+}
+
+module.exports = PostController
+```
+
+
+Note that to add a middleware to all methods of the class use the keyword `all`:
+```js
+static middlewares () {
+  return {
+    all: ['auth']
+  }
+}
+```
 
 ### Schema
 
@@ -143,6 +198,24 @@ Gql.schema('Post', () => {
 })
 ```
 
+You can add middlewares to the schemas and resolvers respectively, note that the middlewares called in the schema will be applied to the resolvers that involves.
+
+```js
+Gql.schema('Post', () => {
+  Gql.query('Queries/PostController').middleware(['auth'])
+  Gql.mutation('Mutations/PostController').middleware(['auth'])
+})
+```
+
+It's the same as:
+
+```js
+Gql.schema('Post', () => {
+  Gql.query('Queries/PostController')
+  Gql.mutation('Mutations/PostController')
+}).middleware(['auth'])
+```
+
 ### Registering the directive
 
 Following the same train of thought you can add the `directive` in AdonisGql. The first argument is its name and the second its controller, register them in `start/graphql.js`:
@@ -152,6 +225,7 @@ const Gql = use('Gql')
 
 Gql.directive('deprecated', 'DeprecatedDirective')
 ```
+
 
 ### Routes
 
@@ -175,7 +249,10 @@ Route.get('/graphiql', ctx => Gql.handleUi(ctx))
 | `adonis gql:schema <name>`    | Make a new schema to graphql    | `-r` Generate resolvers query and mutation for the schema<br> `-q` Generate only query resolver for the schema<br> `-m` Generate only mutation resolver for the schema |
 | `adonis gql:resolver <name>`  | Make a new resolver to graphql  | `-q` Generate only query resolver for the schema<br> `-m` Generate only mutation resolver for the schema                                                               |
 | `adonis gql:directive <name>` | Make a new directive to graphql |                                                                                                                                                                        |
+| `adonis gql:middleware <name>` | Make a new middleware to graphql |                                                                                                                                                                        |
 
 ## Thanks
 
 Thank you very much to the creators of [AdonisJS](https://adonisjs.com/) for creating this wonderful framework.
+
+I ♥️ [Rocketseat](https://rocketseat.com.br)

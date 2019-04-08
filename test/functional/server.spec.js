@@ -170,4 +170,117 @@ test.group('GrafQLServer', group => {
     assert.notDeepInclude(fields, { name: 'date' })
     assert.lengthOf(fields, 2)
   })
+
+  test('return JSON response with named middleware', async assert => {
+    class Middleware {
+      async gqlHandle (resolve, root, args, context, info) {
+        const result = await resolve(root, args, context, info)
+
+        return {
+          ...result,
+          name: 'Higo'
+        }
+      }
+    }
+
+    ioc.bind('Adonis/Middleware/ChangeName', () => {
+      return new Middleware()
+    })
+
+    ioc.bind('App/Controllers/Gql/Queries/PostController', () => {
+      return class PostController {
+        async post (_, __, ___) {
+          return {
+            name: 'AdonisGql',
+            date: '29-03-2019',
+            datetime: '29-03-2019 23:42:11'
+          }
+        }
+      }
+    })
+
+    this.Gql.registerNamed({
+      change: 'Adonis/Middleware/ChangeName'
+    })
+
+    this.Gql.schema('Post', () => {
+      this.Gql.query('Queries/PostController').middleware(['change'])
+    })
+
+    this.Gql.register()
+
+    this.server.on('request', (req, res) => {
+      const Context = ioc.use('Adonis/Src/HttpContext')
+
+      const ctx = new Context()
+      ctx.request = helpers.getRequest(req)
+      ctx.response = helpers.getResponse(req, res)
+
+      try {
+        this.Gql.handle(ctx).then(() => {
+          res.writeHead(200, { 'content-type': 'application/json' })
+          res.write(JSON.stringify(ctx.response.cache))
+          res.end()
+        })
+      } catch (err) {
+        res.writeHead(500)
+        res.write(err.message)
+        res.end()
+      }
+    })
+
+    const { text } = await supertest(this.server)
+      .get('/')
+      .query({ query: '{ post { name }}' })
+      .expect(200)
+
+    assert.equal(text, '{"data":{"post":{"name":"Higo"}}}')
+  })
+
+  test('return JSON response with global middleware', async assert => {
+    class Middleware {
+      async gqlHandle (resolve, root, args, context, info) {
+        return 'fake'
+      }
+    }
+
+    ioc.bind('Adonis/Middleware/Fake', () => {
+      return new Middleware()
+    })
+
+    this.Gql.schema('Unamed', () => {
+      this.Gql.query('Queries/UnamedController')
+    })
+
+    this.Gql.registerGlobal(['Adonis/Middleware/Fake'])
+
+    this.Gql.register()
+
+    this.server.on('request', (req, res) => {
+      const Context = ioc.use('Adonis/Src/HttpContext')
+
+      const ctx = new Context()
+      ctx.request = helpers.getRequest(req)
+      ctx.response = helpers.getResponse(req, res)
+
+      try {
+        this.Gql.handle(ctx).then(() => {
+          res.writeHead(200, { 'content-type': 'application/json' })
+          res.write(JSON.stringify(ctx.response.cache))
+          res.end()
+        })
+      } catch (err) {
+        res.writeHead(500)
+        res.write(err.message)
+        res.end()
+      }
+    })
+
+    const { text } = await supertest(this.server)
+      .get('/')
+      .query({ query: '{ name }' })
+      .expect(200)
+
+    assert.equal(text, '{"data":{"name":"fake"}}')
+  })
 })

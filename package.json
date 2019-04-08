@@ -1,6 +1,6 @@
 {
   "name": "adonis-gql",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A graphql provider for the Adonis framework",
   "main": "index.js",
   "scripts": {
@@ -42,9 +42,11 @@
     "supertest": "^3.4.2"
   },
   "dependencies": {
+    "@adonisjs/middleware-base": "^1.0.0",
     "apollo-server-adonis": "^1.4.0",
     "boxen": "^3.0.0",
     "graphql": "^14.1.1",
+    "graphql-middleware": "^3.0.2",
     "graphql-tools": "^4.0.4",
     "macroable": "^2.0.1",
     "merge-graphql-schemas": "^1.5.8",

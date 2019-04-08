@@ -3,8 +3,9 @@
 const { readFileSync } = require('fs')
 
 class Schema {
-  constructor (name) {
+  constructor (name, resolvers) {
     this.name = name
+    this._resolvers = resolvers
   }
 
   _getSchemaFile () {
@@ -16,6 +17,13 @@ class Schema {
   transform () {
     const schema = this._getSchemaFile()
     return schema
+  }
+
+  middleware (middlewareList) {
+    this._resolvers.forEach(resolver => {
+      resolver.registerMiddleware(middlewareList)
+    })
+    return this
   }
 }
 

@@ -8,12 +8,14 @@ const {
   getSchemaContent,
   getPostController,
   getDirectiveContent,
+  getMiddlewareContent,
   getTemplate
 } = require('./helpers')
 
 const schemaTemplate = getTemplate()
 const gqlControllerTemplate = getTemplate('gqlControllers')
 const directiveTemplate = getTemplate('directives')
+const middlewareTemplate = getTemplate('middlewares')
 
 test.group('Commands | Schema', group => {
   group.before(async () => {
@@ -24,7 +26,8 @@ test.group('Commands | Schema', group => {
     mock({
       'templates/schemas.mustache': schemaTemplate,
       'templates/gqlControllers.mustache': gqlControllerTemplate,
-      'templates/directives.mustache': directiveTemplate
+      'templates/directives.mustache': directiveTemplate,
+      'templates/middlewares.mustache': middlewareTemplate
     })
   })
 
@@ -99,5 +102,13 @@ test.group('Commands | Schema', group => {
     )
 
     assert.equal(directive, getDirectiveContent())
+  })
+
+  test('create a middleware file', async assert => {
+    await ace.call('gql:middleware', { name: 'Auth' })
+
+    const directive = fs.readFileSync('app/Middleware/Auth.js', 'utf-8')
+
+    assert.equal(directive, getMiddlewareContent())
   })
 })

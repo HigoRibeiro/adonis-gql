@@ -19,16 +19,16 @@ class Store {
   }
 
   schema (name, callback) {
-    const schema = new Schema(name)
-
     if (callback) {
       this._breakpoint = {
         enabled: true,
-        name
+        name,
+        resolvers: []
       }
       callback()
     }
 
+    const schema = new Schema(name, this.breakpointResolvers())
     this.schemas.push(schema)
 
     return schema
@@ -37,8 +37,13 @@ class Store {
   restore () {
     this._breakpoint = {
       enabled: false,
-      name: undefined
+      name: undefined,
+      resolvers: []
     }
+  }
+
+  breakpointResolvers () {
+    return this._breakpoint.resolvers
   }
 
   resolver (name, Controller, type = 'Query') {
@@ -51,6 +56,12 @@ class Store {
     let _type = this._normalizeType(type)
     const resolver = new Resolver(name, Controller, _type)
     this.resolvers.set(`${name}:${_type}`, resolver)
+
+    if (this.hasBreakpoint()) {
+      this._breakpoint.resolvers.push(resolver)
+    }
+
+    return resolver
   }
 
   resolversClear () {

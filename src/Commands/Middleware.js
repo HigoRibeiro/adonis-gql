@@ -2,25 +2,25 @@
 
 const MakeBase = require('./MakeBase')
 
-class Directive extends MakeBase {
+class Middleware extends MakeBase {
   static get signature () {
     return `
-    gql:directive
-    { name: Name of directive }
+    gql:middleware
+    { name: Name of middleware }
     `
   }
 
   static get description () {
-    return 'Make a new directive to graphql'
+    return 'Make a new middleware to graphql'
   }
 
   async handle ({ name }) {
     try {
-      await this.generateBlueprint('directives', name)
+      await this.generateBlueprint('middlewares', name)
     } catch (e) {
       this.error(e.message)
     }
   }
 }
 
-module.exports = Directive
+module.exports = Middleware

@@ -258,3 +258,41 @@ test.group('Manager | Resolver', group => {
     assert.property(resolvers.User, 'method')
   })
 })
+
+test.group('Manager | Resolver middleware', group => {
+  group.beforeEach(() => {
+    ioc.restore()
+  })
+
+  group.afterEach(() => {
+    Manager.clear()
+  })
+
+  test('add a new query resolver with middleware', assert => {
+    class UserMiddlewareController {
+      post (parent, args, ctx) {}
+      posts (parent, args, ctx) {}
+
+      static middlewares () {
+        return {
+          all: ['auth'],
+          posts: ['acl']
+        }
+      }
+    }
+
+    ioc.bind('App/Controllers/Gql/UserMiddlewareController', () => {
+      return UserMiddlewareController
+    })
+
+    Manager.query('User', 'UserMiddlewareController')
+
+    const instance = Manager.resolvers.get('User:Query')
+
+    instance.transform()
+
+    assert.deepEqual(instance.middlewares, {
+      Query: { post: ['auth'], posts: ['auth', 'acl'] }
+    })
+  })
+})
