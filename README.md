@@ -4,6 +4,9 @@ A [GraphQL](https://graphql.org) provider for the Adonis framework
 
 This library provides an easy way to start using GraphQL with AdonisJS without losing the essence of it.
 
+
+If you like it, consider [![Buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png)](https://www.buymeacoffee.com/higoribeiro)
+
 ## Install
 
 `adonis install adonis-gql`
