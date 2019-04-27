@@ -1,6 +1,7 @@
 'use strict'
 
 const { readFileSync } = require('fs')
+const { ioc } = require('@adonisjs/fold')
 
 class Schema {
   constructor (name, resolvers) {
@@ -11,7 +12,8 @@ class Schema {
   _getSchemaFile () {
     global.iocResolver._directories.schemas = 'Schemas'
     const namespace = global.iocResolver.forDir('schemas').translate(this.name)
-    return readFileSync(`${namespace}.graphql`, 'utf-8')
+    const filePath = ioc._getAutoloadedPath(namespace)
+    return readFileSync(`${filePath}.graphql`, 'utf-8')
   }
 
   transform () {

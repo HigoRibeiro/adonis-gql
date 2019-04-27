@@ -1,6 +1,6 @@
 {
   "name": "adonis-gql",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A graphql provider for the Adonis framework",
   "main": "index.js",
   "scripts": {
