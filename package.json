@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HigoRibeiro/adonis-grapfql.git"
+    "url": "git+https://github.com/valmirphp/adonis-gql-apollo-v2"
   },
   "keywords": [
     "adonisjs",
@@ -22,13 +22,14 @@
   "author": "Higo Ribeiro",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/HigoRibeiro/adonis-gql/issues"
+    "url": "https://github.com/valmirphp/adonis-gql-apollo-v2/issues"
   },
-  "homepage": "https://github.com/HigoRibeiro/adonis-gql#readme",
+  "homepage": "https://github.com/valmirphp/adonis-gql-apollo-v2#readme",
   "devDependencies": {
     "@adonisjs/ace": "^5.0.8",
     "@adonisjs/fold": "^4.0.9",
     "@adonisjs/sink": "^1.0.17",
+    "@types/node": "^12.0.10",
     "eslint": "^5.15.1",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.16.0",
@@ -39,7 +40,8 @@
     "japa-cli": "^1.0.1",
     "mock-fs": "^4.8.0",
     "nyc": "^13.3.0",
-    "supertest": "^3.4.2"
+    "supertest": "^3.4.2",
+    "typescript": "^3.5.2"
   },
   "dependencies": {
     "@adonisjs/middleware-base": "^1.0.0",
