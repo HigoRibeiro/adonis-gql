@@ -6,17 +6,17 @@ const path = require('path')
 const { Macroable } = require('macroable')
 
 class Context extends Macroable {
-  static onReady () {}
+  static onReady() { }
 }
 Context._getters = {}
 Context._macros = {}
 
 class UnamedController {
-  name (parent, args, ctx) {}
+  name(parent, args, ctx) { }
 }
 
 class MutationUnamedController {
-  addName (parent, args, ctx) {}
+  addName(parent, args, ctx) { }
 }
 
 module.exports = async () => {

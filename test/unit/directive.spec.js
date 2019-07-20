@@ -19,7 +19,7 @@ test.group('Directive', group => {
   })
 
   test('add a new directive', assert => {
-    class DeprecatedDirective {}
+    class DeprecatedDirective { }
 
     ioc.bind('App/Directives/DeprecatedDirective', () => {
       return DeprecatedDirective
@@ -31,7 +31,7 @@ test.group('Directive', group => {
   })
 
   test('execute directive', assert => {
-    class DeprecatedDirective {}
+    class DeprecatedDirective { }
 
     ioc.bind('App/Directives/DeprecatedDirective', () => {
       return DeprecatedDirective
@@ -46,7 +46,7 @@ test.group('Directive', group => {
       posts (parent, args, ctx) {
         return 'test'
       }
-      $private (parent, args, ctx) {}
+      $private (parent, args, ctx) { }
     }
 
     ioc.bind('App/Controllers/Gql/PostController', () => {
@@ -59,7 +59,7 @@ test.group('Directive', group => {
   })
 
   test('clear directives', assert => {
-    class DeprecatedDirective {}
+    class DeprecatedDirective { }
 
     ioc.bind('App/Directives/DeprecatedDirective', () => {
       return DeprecatedDirective

@@ -21,7 +21,7 @@ test.group('GrafQLServer', group => {
         date: String @deprecated(reason: "Use \`datetime\`")
         datetime: String
       }
-      
+
       type Query {
         post: Post
       }`
@@ -66,7 +66,7 @@ test.group('GrafQLServer', group => {
   })
 
   test('return JSON response with posts when schema is defined and resolver are mocks', async assert => {
-    this.Gql.schema('Unamed', () => {})
+    this.Gql.schema('Unamed', () => { })
     this.Gql.register()
 
     this.server.on('request', (req, res) => {

@@ -11,7 +11,7 @@ test.group('Store', group => {
     setupResolver()
 
     class PostController {
-      posts (parent, args, ctx) {}
+      posts (parent, args, ctx) { }
     }
 
     ioc.bind('App/Controllers/Gql/PostController', () => {

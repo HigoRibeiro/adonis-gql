@@ -45,6 +45,8 @@ class Server {
 
     ResolverManager.clear()
     DirectiveManager.clear()
+    Middleware._middleware.global = []
+    Middleware._middleware.named = []
   }
 
   _makeMiddleware (middleware, type) {
@@ -83,7 +85,7 @@ class Server {
       })
 
       return middlewareList
-    } catch (err) {}
+    } catch (err) { }
   }
 
   _loadNamedMiddlewares (middleware) {

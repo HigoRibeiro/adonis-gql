@@ -36,7 +36,7 @@ module.exports = {
           const parsedData = JSON.parse(response)
           this.cache = parsedData
           this.send(parsedData)
-        } catch (e) {}
+        } catch (e) { }
       },
       on (name, listener) {
         res.on(name, listener)
@@ -74,5 +74,40 @@ module.exports = {
   },
   getSchema () {
     return makeExecutableSchema({ typeDefs: this.getTypeDef() })
+  },
+  getRequestWithMultipart () {
+    return {
+      body: null,
+      updateBody (fields) {
+        this.body = fields
+      },
+      multipart: {
+        setFields (fields) { this._fields = fields },
+        field (callback) {
+          this._callbackField = callback
+        },
+        setFiles (files) {
+          this._files = files
+        },
+        file (name, options = {}, callback) {
+          this._callbackFile = { options, callback }
+        },
+        process () {
+          return new Promise((resolve, reject) => {
+            this._fields.map(([name, value]) => {
+              this._callbackField(name, value)
+            })
+
+            this._files && this._files.map(([name, fileInstance], index) => {
+              this._callbackFile.callback(fileInstance).then(() => {
+                if (index + 1 === this._files.length) {
+                  resolve()
+                }
+              }).catch(err => reject(err))
+            })
+          })
+        }
+      }
+    }
   }
 }

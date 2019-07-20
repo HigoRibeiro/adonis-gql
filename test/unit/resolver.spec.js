@@ -22,8 +22,8 @@ test.group('Resolver', group => {
 
   test('bind resolver controller when a string is passed', assert => {
     class PostController {
-      posts (parent, args, ctx) {}
-      $private (parent, args, ctx) {}
+      posts (parent, args, ctx) { }
+      $private (parent, args, ctx) { }
     }
 
     ioc.bind('App/Controllers/Gql/PostController', () => {
@@ -61,7 +61,7 @@ test.group('Resolver', group => {
       posts (parent, args, ctx) {
         return 'test'
       }
-      $private (parent, args, ctx) {}
+      $private (parent, args, ctx) { }
     }
 
     ioc.bind('App/Controllers/Gql/PostController', () => {
@@ -75,7 +75,7 @@ test.group('Resolver', group => {
 
   test('merge two controller bound', assert => {
     class PostController {
-      posts (parent, args, ctx) {}
+      posts (parent, args, ctx) { }
     }
 
     ioc.bind('App/Controllers/Gql/PostController', () => {
@@ -83,7 +83,7 @@ test.group('Resolver', group => {
     })
 
     class UserController {
-      users (parent, args, ctx) {}
+      users (parent, args, ctx) { }
     }
 
     ioc.bind('App/Controllers/Gql/UserController', () => {
@@ -129,7 +129,7 @@ test.group('Manager | Schema', group => {
     })
 
     class PostController {
-      posts (parent, args, ctx) {}
+      posts (parent, args, ctx) { }
     }
 
     ioc.bind('App/Controllers/Gql/PostController', () => {
@@ -186,7 +186,7 @@ test.group('Manager | Resolver', group => {
 
   test('add a new query resolver', assert => {
     class UserController {
-      users (parent, args, ctx) {}
+      users (parent, args, ctx) { }
     }
 
     ioc.bind('App/Controllers/Gql/UserController', () => {
@@ -200,7 +200,7 @@ test.group('Manager | Resolver', group => {
 
   test('add a new mutation resolver', assert => {
     class UserController {
-      addUser (parent, args, ctx) {}
+      addUser (parent, args, ctx) { }
     }
 
     ioc.bind('App/Controllers/Gql/UserController', () => {
@@ -214,7 +214,7 @@ test.group('Manager | Resolver', group => {
 
   test('add a new specific type resolver', assert => {
     class UserController {
-      posts (parent, args, ctx) {}
+      posts (parent, args, ctx) { }
     }
 
     ioc.bind('App/Controllers/Gql/UserController', () => {
@@ -228,7 +228,7 @@ test.group('Manager | Resolver', group => {
 
   test('merge diferent resolvers', assert => {
     class UnamedController {
-      method (parent, args, ctx) {}
+      method (parent, args, ctx) { }
     }
 
     ioc.bind('App/Controllers/Gql/UnamedController', () => {
@@ -270,8 +270,8 @@ test.group('Manager | Resolver middleware', group => {
 
   test('add a new query resolver with middleware', assert => {
     class UserMiddlewareController {
-      post (parent, args, ctx) {}
-      posts (parent, args, ctx) {}
+      post (parent, args, ctx) { }
+      posts (parent, args, ctx) { }
 
       static middlewares () {
         return {

@@ -13,6 +13,11 @@ class GQLProvider extends ServiceProvider {
 
     this.app.alias('Adonis/Addons/GqlServer', 'Gql')
     this.app.bind('SchemaDirectiveVisitor', () => SchemaDirectiveVisitor)
+
+    this.app.bind('Adonis/Middleware/GqlUpload', () => {
+      const Upload = require('../src/Middleware/Upload')
+      return new Upload()
+    })
   }
 
   _registerCommands () {
