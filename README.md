@@ -48,7 +48,7 @@ You can add `middlewares` to your **resolvers**, they can be global or named, so
 
 ```js
 class Auth {
-  async gqlHandle (resolve, root, args, ctx, info) {
+  async gqlHandle (resolve, parent, args, ctx, info) {
     const result = await resolve(parent, args, ctx, info)
     return result
   }
